@@ -1,11 +1,11 @@
-const express = require('express');
+import express from 'express';
+import moment from 'moment';
+const router = express.Router();
 const Task = require('../models/task');
 const auth = require('../middleware/auth');
 const Log = require('../models/log');
-const router = express.Router();
-const moment = require('moment');
 
-router.post('/tasks', auth, async (req, res) => {
+router.post('/tasks', auth, async (req: any, res: any) => {
     try {
         await Task.create({
             description: req.body.description,
@@ -14,7 +14,7 @@ router.post('/tasks', auth, async (req, res) => {
         });
         let timeNow = moment();
         await Log.create({
-            userId: req.user.id,
+            userId: req.user.uuid,
             action: 'POST /tasks',
             time: timeNow
         });
@@ -24,7 +24,7 @@ router.post('/tasks', auth, async (req, res) => {
     }
 });
 
-router.get('/tasks', auth, async (req, res) => {
+router.get('/tasks', auth, async (req: any, res: any) => {
     try {
         const tasks = await Task.findAll({
             where: {
@@ -34,7 +34,7 @@ router.get('/tasks', auth, async (req, res) => {
         });
         let timeNow = moment();
         await Log.create({
-            userId: req.user.id,
+            userId: req.user.uuid,
             action: 'GET /tasks',
             time: timeNow
         });
@@ -45,7 +45,7 @@ router.get('/tasks', auth, async (req, res) => {
 
 });
 
-router.get('/tasks/:id', auth, async (req, res) => {
+router.get('/tasks/:id', auth, async (req: any, res: any) => {
     const _id = req.params.id;
     try {
         const task = await Task.findOne({
@@ -69,7 +69,7 @@ router.get('/tasks/:id', auth, async (req, res) => {
     }
 });
 
-router.delete('/tasks/:id', auth, async (req, res) => {
+router.delete('/tasks/:id', auth, async (req: any, res: any) => {
     const _id = req.params.id;
     try {
         const task = await Task.findOne({
@@ -93,7 +93,7 @@ router.delete('/tasks/:id', auth, async (req, res) => {
     }
 });
 
-router.patch('/tasks/:id', auth, async (req, res) => {
+router.patch('/tasks/:id', auth, async (req: any, res: any) => {
     const _id = req.params.id;
     const updates = Object.keys(req.body);
     const allowedUpdates = ['description', 'completed'];

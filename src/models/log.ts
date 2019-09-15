@@ -12,7 +12,7 @@ const Log = sequelize.define('log', {
         defaultValue: Sequelize.UUIDV1
     },
     userId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
         allowNull: false
     },
     action: {

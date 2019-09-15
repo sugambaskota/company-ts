@@ -1,17 +1,17 @@
-const express = require('express');
+import express from 'express';
+import moment from 'moment';
+const router = express.Router();
 const User = require('../models/user');
 const auth = require('../middleware/auth');
-const router = express.Router();
 const Log = require('../models/log');
-const moment = require('moment');
 
-router.post('/users', async (req, res) => {
+router.post('/users', async (req: any, res: any) => {
     try {
-        const user = await User.create(req.body);
-        const token = await user.generateAuthToken();
-        const timeNow = moment();
+        let user: any = await User.create(req.body);
+        let token: any = await user.generateAuthToken();
+        let timeNow: any = moment();
         await Log.create({
-            userId: user.id,
+            userId: user.uuid,
             action: 'POST /users',
             time: timeNow
         });
@@ -21,13 +21,13 @@ router.post('/users', async (req, res) => {
     }
 });
 
-router.post('/users/login', async (req, res) => {
+router.post('/users/login', async (req: any, res: any) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password, req.body.companyId);
         const token = await user.generateAuthToken();
         const timeNow = moment();
         await Log.create({
-            userId: user.id,
+            userId: user.uuid,
             action: 'POST /users/login',
             time: timeNow
         });
@@ -37,12 +37,12 @@ router.post('/users/login', async (req, res) => {
     }
 });
 
-router.get('/users/profile', auth, async (req, res) => {
+router.get('/users/profile', auth, async (req: any, res: any) => {
     try {
         const user = req.user;
         const timeNow = moment();
         await Log.create({
-            userId: user.id,
+            userId: user.uuid,
             action: 'GET /users/profile',
             time: timeNow
         });
@@ -52,13 +52,13 @@ router.get('/users/profile', auth, async (req, res) => {
     }
 });
 
-router.delete('/users/remove', auth, async (req, res) => {
+router.delete('/users/remove', auth, async (req: any, res: any) => {
     try {
         const user = req.user;
         await user.destroy();
         const timeNow = moment();
         await Log.create({
-            userId: user.id,
+            userId: user.uuid,
             action: 'DELETE /users/remove',
             time: timeNow
         });
@@ -68,7 +68,7 @@ router.delete('/users/remove', auth, async (req, res) => {
     }
 });
 
-router.patch('/users/update', auth, async (req, res) => {
+router.patch('/users/update', auth, async (req: any, res: any) => {
     const user = req.user;
     const updates = Object.keys(req.body);
     const allowedUpdates = ['name', 'email', 'password', 'age'];
@@ -80,7 +80,7 @@ router.patch('/users/update', auth, async (req, res) => {
         const result = await user.update(req.body);
         const timeNow = moment();
         await Log.create({
-            userId: user.id,
+            userId: user.uuid,
             action: 'PATCH /users/update',
             time: timeNow
         });

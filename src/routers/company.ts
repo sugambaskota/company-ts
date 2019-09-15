@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express';
 const Company = require('../models/company');
 const User = require('../models/user');
 const router = express.Router();
@@ -21,7 +21,7 @@ router.get('/companies', async (req, res) => {
                     attributes: [["name", "Name"], ["email", "Email"], ["age", "Age"]]
                 }
             ],
-            attributes: [["id", "ID"], ["name", "Name"]]
+            attributes: [["uuid", "ID"], ["name", "Name"]]
         });
         res.status(200).json(companies);
     } catch (e) {

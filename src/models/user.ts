@@ -1,8 +1,7 @@
-const Sequelize = require('sequelize');
+import Sequelize, { IntegerDataType } from 'sequelize';
 const sequelize = require('../db/sequelize');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const Task = require('./task');
 
 const User = sequelize.define('user', {
     id: {
@@ -42,7 +41,7 @@ const User = sequelize.define('user', {
         paranoid: true
     });
 
-User.findByCredentials = async (email, password, companyId) => {
+User.findByCredentials = async (email: string, password: string, companyId: number) => {
     const user = await User.findOne({
         where: {
             email,
@@ -61,19 +60,19 @@ User.findByCredentials = async (email, password, companyId) => {
 
 User.prototype.generateAuthToken = async function () {
     const user = this;
-    const token = jwt.sign({ _id: user.id }, 'helloworld', { expiresIn: '1h' });
+    const token = jwt.sign({ _id: user.uuid }, 'helloworld', { expiresIn: '1h' });
     return token;
 }
 
-User.beforeCreate(async (user, options) => {
-    hashedPw = await bcrypt.hash(user.password, 8);
+User.beforeCreate(async (user: any, options: any) => {
+    let hashedPw = await bcrypt.hash(user.password, 8);
     user.password = hashedPw;
 });
 
-User.beforeUpdate((user, options) => {
+User.beforeUpdate((user: any, options: any) => {
     const password = user.password;
     if (user.changed('password')) {
-        return bcrypt.hash(password, 8).then((hashedPw) => {
+        return bcrypt.hash(password, 8).then((hashedPw: string) => {
             user.password = hashedPw;
         });
     } else {
