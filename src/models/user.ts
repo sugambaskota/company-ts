@@ -1,7 +1,8 @@
-import Sequelize, { IntegerDataType } from 'sequelize';
+import Sequelize from 'sequelize';
 const sequelize = require('../db/sequelize');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Company = require('./company');
 
 const User = sequelize.define('user', {
     id: {
@@ -41,11 +42,16 @@ const User = sequelize.define('user', {
         paranoid: true
     });
 
-User.findByCredentials = async (email: string, password: string, companyId: number) => {
-    const user = await User.findOne({
+User.findByCredentials = async (email: string, password: string, companyId: string) => {
+    let corCompany: any = await Company.findOne({
+        where: {
+            uuid: companyId
+        }
+    });
+    const user: any = await User.findOne({
         where: {
             email,
-            companyId
+            companyId: corCompany.id
         }
     });
     if (!user) {
@@ -60,7 +66,7 @@ User.findByCredentials = async (email: string, password: string, companyId: numb
 
 User.prototype.generateAuthToken = async function () {
     const user = this;
-    const token = jwt.sign({ _id: user.uuid }, 'helloworld', { expiresIn: '1h' });
+    const token = jwt.sign({ _id: user.uuid }, process.env.JWT_SECRET, { expiresIn: '1h' });
     return token;
 }
 

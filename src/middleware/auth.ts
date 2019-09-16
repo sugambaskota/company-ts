@@ -1,10 +1,11 @@
-import jwt from 'jsonwebtoken';
+//import jwt from 'jsonwebtoken';
 const User = require('../models/user');
+const jwt = require('jsonwebtoken');
 
 const auth = async (req: any, res: any, next: any) => {
     try {
         const token = req.header('Authorization').replace('Bearer ', '');
-        const decoded: any = jwt.verify(token, 'helloworld');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
         const user = await User.findOne({
             where: {
                 uuid: decoded._id

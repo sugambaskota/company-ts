@@ -16,7 +16,7 @@ const Log = sequelize.define('log', {
         defaultValue: sequelize_1.default.UUIDV1
     },
     userId: {
-        type: sequelize_1.default.INTEGER,
+        type: sequelize_1.default.UUID,
         allowNull: false
     },
     action: {
@@ -29,3 +29,4 @@ const Log = sequelize.define('log', {
     timestamps: false
 });
 module.exports = Log;
+//# sourceMappingURL=log.js.map

@@ -24,11 +24,16 @@ router.post('/users', (req, res) => __awaiter(void 0, void 0, void 0, function* 
         let token = yield user.generateAuthToken();
         let timeNow = moment_1.default();
         yield Log.create({
-            userId: user.id,
+            userId: user.uuid,
             action: 'POST /users',
             time: timeNow
         });
-        res.status(201).json({ user, token });
+        res.status(201).json({ "User": {
+                "ID": user.uuid,
+                "Name": user.name,
+                "Email": user.email,
+                "Age": user.age
+            }, "Token": token });
     }
     catch (e) {
         res.status(400).send(e);
@@ -40,11 +45,16 @@ router.post('/users/login', (req, res) => __awaiter(void 0, void 0, void 0, func
         const token = yield user.generateAuthToken();
         const timeNow = moment_1.default();
         yield Log.create({
-            userId: user.id,
+            userId: user.uuid,
             action: 'POST /users/login',
             time: timeNow
         });
-        res.json({ user, token });
+        res.json({ "User": {
+                "ID": user.uuid,
+                "Name": user.name,
+                "Email": user.email,
+                "Age": user.age
+            }, "Token": token });
     }
     catch (e) {
         res.status(406).send();
@@ -55,11 +65,16 @@ router.get('/users/profile', auth, (req, res) => __awaiter(void 0, void 0, void 
         const user = req.user;
         const timeNow = moment_1.default();
         yield Log.create({
-            userId: user.id,
+            userId: user.uuid,
             action: 'GET /users/profile',
             time: timeNow
         });
-        res.status(200).json(user);
+        res.status(200).json({
+            "ID": user.uuid,
+            "Name": user.name,
+            "Email": user.email,
+            "Age": user.age
+        });
     }
     catch (e) {
         res.status(408).send();
@@ -71,7 +86,7 @@ router.delete('/users/remove', auth, (req, res) => __awaiter(void 0, void 0, voi
         yield user.destroy();
         const timeNow = moment_1.default();
         yield Log.create({
-            userId: user.id,
+            userId: user.uuid,
             action: 'DELETE /users/remove',
             time: timeNow
         });
@@ -93,14 +108,20 @@ router.patch('/users/update', auth, (req, res) => __awaiter(void 0, void 0, void
         const result = yield user.update(req.body);
         const timeNow = moment_1.default();
         yield Log.create({
-            userId: user.id,
+            userId: user.uuid,
             action: 'PATCH /users/update',
             time: timeNow
         });
-        res.status(202).json(result);
+        res.status(202).json({
+            "ID": result.uuid,
+            "Name": result.name,
+            "Email": result.email,
+            "Age": result.age
+        });
     }
     catch (e) {
         res.status(408).send();
     }
 }));
 module.exports = router;
+//# sourceMappingURL=user.js.map

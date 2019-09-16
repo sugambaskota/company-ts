@@ -7,7 +7,8 @@ router.get('/user/:id/report', async (req, res) => {
         const log = await Log.findAll({
             where: {
                 userId: req.params.id
-            }
+            },
+            attributes: [["action", "Action"], ["time", "Time"]]
         });
         res.status(200).json(log);
     } catch (e) {

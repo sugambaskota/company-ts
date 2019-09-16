@@ -29,3 +29,4 @@ const Task = sequelize.define('task', {
     paranoid: true
 });
 module.exports = Task;
+//# sourceMappingURL=task.js.map

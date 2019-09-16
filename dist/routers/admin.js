@@ -20,7 +20,8 @@ router.get('/user/:id/report', (req, res) => __awaiter(void 0, void 0, void 0, f
         const log = yield Log.findAll({
             where: {
                 userId: req.params.id
-            }
+            },
+            attributes: [["action", "Action"], ["time", "Time"]]
         });
         res.status(200).json(log);
     }
@@ -29,3 +30,4 @@ router.get('/user/:id/report', (req, res) => __awaiter(void 0, void 0, void 0, f
     }
 }));
 module.exports = router;
+//# sourceMappingURL=admin.js.map

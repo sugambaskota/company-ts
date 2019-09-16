@@ -16,25 +16,11 @@ const express_1 = __importDefault(require("express"));
 const auth = require('../middleware/auth');
 const Log = require('../models/log');
 const router = express_1.default.Router();
-// router.get('/log/:id', auth, async (req, res) => {
-//     try {
-//         const log = await Log.findAll({
-//             where: {
-//                 id: req.params.id,
-//                 userId: req.user.id
-//             }
-//         });
-//         res.status(200).json(log);
-//     } catch (e) {
-//         res.status(500).send(e);
-//     }
-// });
-router.get('/report', auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get('/log', auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const log = yield Log.findAll({
             where: {
-                userId: req.user.id,
-                action: 'POST /users' || 'POST /users/login',
+                userId: req.user.uuid
             },
             attributes: [["action", "Action"], ["time", "Time"]]
         });
@@ -44,5 +30,21 @@ router.get('/report', auth, (req, res) => __awaiter(void 0, void 0, void 0, func
         res.status(500).send(e);
     }
 }));
+router.get('/report', auth, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const report = yield Log.findAll({
+            where: {
+                userId: req.user.uuid,
+                action: 'POST /users' || 'POST /users/login',
+            },
+            attributes: [["action", "Action"], ["time", "Time"]]
+        });
+        res.status(200).json(report);
+    }
+    catch (e) {
+        res.status(500).send(e);
+    }
+}));
 module.exports = router;
 exports.default = router;
+//# sourceMappingURL=log.js.map

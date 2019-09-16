@@ -23,3 +23,4 @@ const Company = sequelize.define('company', {
     timestamps: true
 });
 module.exports = Company;
+//# sourceMappingURL=company.js.map

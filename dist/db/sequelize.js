@@ -14,3 +14,4 @@ sequelize
 });
 sequelize.sync();
 module.exports = sequelize;
+//# sourceMappingURL=sequelize.js.map

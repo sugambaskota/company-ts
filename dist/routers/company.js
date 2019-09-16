@@ -43,3 +43,4 @@ router.get('/companies', (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 }));
 module.exports = router;
+//# sourceMappingURL=company.js.map

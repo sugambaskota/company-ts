@@ -27,7 +27,7 @@ router.post('/tasks', auth, (req, res) => __awaiter(void 0, void 0, void 0, func
         });
         let timeNow = moment_1.default();
         yield Log.create({
-            userId: req.user.id,
+            userId: req.user.uuid,
             action: 'POST /tasks',
             time: timeNow
         });
@@ -47,7 +47,7 @@ router.get('/tasks', auth, (req, res) => __awaiter(void 0, void 0, void 0, funct
         });
         let timeNow = moment_1.default();
         yield Log.create({
-            userId: req.user.id,
+            userId: req.user.uuid,
             action: 'GET /tasks',
             time: timeNow
         });
@@ -136,3 +136,4 @@ router.patch('/tasks/:id', auth, (req, res) => __awaiter(void 0, void 0, void 0,
     }
 }));
 module.exports = router;
+//# sourceMappingURL=task.js.map

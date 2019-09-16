@@ -82,8 +82,8 @@ router.delete('/tasks/:id', auth, async (req: any, res: any) => {
         }
         let timeNow = moment();
         await Log.create({
-            userId: req.user.id,
-            action: `DELETE /tasks/${_id}`,
+            userId: req.user.uuid,
+            action: 'DELETE /tasks',
             time: timeNow
         });
         await task.destroy();

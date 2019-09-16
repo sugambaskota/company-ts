@@ -20,7 +20,7 @@ const auth = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
         const decoded = jsonwebtoken_1.default.verify(token, 'helloworld');
         const user = yield User.findOne({
             where: {
-                id: decoded._id
+                uuid: decoded._id
             }
         });
         if (!user) {
@@ -35,3 +35,4 @@ const auth = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 module.exports = auth;
+//# sourceMappingURL=auth.js.map

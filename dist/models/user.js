@@ -71,7 +71,7 @@ User.findByCredentials = (email, password, companyId) => __awaiter(void 0, void 
 User.prototype.generateAuthToken = function () {
     return __awaiter(this, void 0, void 0, function* () {
         const user = this;
-        const token = jwt.sign({ _id: user.id }, 'helloworld', { expiresIn: '1h' });
+        const token = jwt.sign({ _id: user.uuid }, 'helloworld', { expiresIn: '1h' });
         return token;
     });
 };
@@ -91,3 +91,4 @@ User.beforeUpdate((user, options) => {
     }
 });
 module.exports = User;
+//# sourceMappingURL=user.js.map
