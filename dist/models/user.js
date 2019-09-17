@@ -16,6 +16,7 @@ const sequelize_1 = __importDefault(require("sequelize"));
 const sequelize = require('../db/sequelize');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Company = require('./company');
 const User = sequelize.define('user', {
     id: {
         primaryKey: true,
@@ -53,10 +54,15 @@ const User = sequelize.define('user', {
     paranoid: true
 });
 User.findByCredentials = (email, password, companyId) => __awaiter(void 0, void 0, void 0, function* () {
+    let corCompany = yield Company.findOne({
+        where: {
+            uuid: companyId
+        }
+    });
     const user = yield User.findOne({
         where: {
             email,
-            companyId
+            companyId: corCompany.id
         }
     });
     if (!user) {
@@ -71,7 +77,7 @@ User.findByCredentials = (email, password, companyId) => __awaiter(void 0, void 
 User.prototype.generateAuthToken = function () {
     return __awaiter(this, void 0, void 0, function* () {
         const user = this;
-        const token = jwt.sign({ _id: user.uuid }, 'helloworld', { expiresIn: '1h' });
+        const token = jwt.sign({ _id: user.uuid }, process.env.JWT_SECRET, { expiresIn: '1h' });
         return token;
     });
 };

@@ -18,9 +18,21 @@ const router = express_1.default.Router();
 const User = require('../models/user');
 const auth = require('../middleware/auth');
 const Log = require('../models/log');
+const Company = require('../models/company');
 router.post('/users', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let user = yield User.create(req.body);
+        let corCompany = yield Company.findOne({
+            where: {
+                uuid: req.body.companyId
+            }
+        });
+        let user = yield User.create({
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password,
+            companyId: corCompany.id,
+            age: req.body.age
+        });
         let token = yield user.generateAuthToken();
         let timeNow = moment_1.default();
         yield Log.create({

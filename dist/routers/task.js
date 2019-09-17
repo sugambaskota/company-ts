@@ -71,7 +71,7 @@ router.get('/tasks/:id', auth, (req, res) => __awaiter(void 0, void 0, void 0, f
         }
         let timeNow = moment_1.default();
         yield Log.create({
-            userId: req.user.id,
+            userId: req.user.uuid,
             action: `GET /tasks/${_id}`,
             time: timeNow
         });
@@ -94,8 +94,8 @@ router.delete('/tasks/:id', auth, (req, res) => __awaiter(void 0, void 0, void 0
         }
         let timeNow = moment_1.default();
         yield Log.create({
-            userId: req.user.id,
-            action: `DELETE /tasks/${_id}`,
+            userId: req.user.uuid,
+            action: 'DELETE /tasks',
             time: timeNow
         });
         yield task.destroy();
@@ -125,7 +125,7 @@ router.patch('/tasks/:id', auth, (req, res) => __awaiter(void 0, void 0, void 0,
         yield task.save(req.body);
         let timeNow = moment_1.default();
         yield Log.create({
-            userId: req.user.id,
+            userId: req.user.uuid,
             action: `PATCH /tasks/id`,
             time: timeNow
         });

@@ -59,7 +59,7 @@ router.get('/tasks/:id', auth, async (req: any, res: any) => {
         }
         let timeNow = moment();
         await Log.create({
-            userId: req.user.id,
+            userId: req.user.uuid,
             action: `GET /tasks/${_id}`,
             time: timeNow
         });
@@ -113,7 +113,7 @@ router.patch('/tasks/:id', auth, async (req: any, res: any) => {
         await task.save(req.body);
         let timeNow = moment();
         await Log.create({
-            userId: req.user.id,
+            userId: req.user.uuid,
             action: `PATCH /tasks/id`,
             time: timeNow
         });

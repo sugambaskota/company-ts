@@ -26,7 +26,7 @@ Company.hasMany(User);
 User.belongsTo(Company);
 User.hasMany(Task);
 Task.belongsTo(User);
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 app.use(express_1.default.json());
 app.use(companyRouter);
 app.use(userRouter);
